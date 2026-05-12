@@ -20,4 +20,6 @@ public class Colaborador {
     @ManyToOne
     @JoinColumn(name = "departamento_id")
     private Departamento departamento;
+
+    private String senha;
 }

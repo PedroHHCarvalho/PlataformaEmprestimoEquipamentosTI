@@ -20,39 +20,36 @@
         <p>Plataforma de Empréstimos de Equipamentos de TI</p>
     </div>
 
-    <form class="needs-validation" novalidate onsubmit="return handleLogin(event)">
+    <div th:if="${param.error}" class="alert alert-danger text-center small">Matrícula ou senha incorretos!</div>
+    <div th:if="${param.logout}" class="alert alert-success text-center small">Você saiu do sistema.</div>
+    <div th:if="${param.cadastrado}" class="alert alert-primary text-center small">Cadastro realizado! Faça login.</div>
+
+    <form th:action="@{/login}" method="POST">
 
         <div class="mb-3">
-            <label for="matricula" class="form-label text-secondary small fw-bold">Matrícula ou E-mail</label>
+            <label for="username" class="form-label text-secondary small fw-bold">Matrícula</label>
             <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0">
-                        <i class="bi bi-person text-secondary"></i>
-                    </span>
-                <input type="text" class="form-control border-start-0 ps-0" id="matricula" placeholder="Digite seu acesso" required>
-                <div class="invalid-feedback">Por favor, insira sua matrícula.</div>
+                <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-secondary"></i></span>
+                <input type="text" class="form-control border-start-0 ps-0" id="username" name="username" placeholder="Digite sua matrícula" required>
             </div>
         </div>
 
         <div class="mb-4">
-            <label for="senha" class="form-label text-secondary small fw-bold">Senha</label>
+            <label for="password" class="form-label text-secondary small fw-bold">Senha</label>
             <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0">
-                        <i class="bi bi-lock text-secondary"></i>
-                    </span>
-                <input type="password" class="form-control border-start-0 border-end-0 ps-0" id="senha" placeholder="••••••••" required>
-                <span class="input-group-text border-start-0" onclick="togglePassword()">
+                <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-secondary"></i></span>
+                <input type="password" class="form-control border-start-0 border-end-0 ps-0" id="password" name="password" placeholder="••••••••" required>
+                <span class="input-group-text border-start-0" onclick="togglePassword()" style="cursor: pointer;">
                         <i class="bi bi-eye-slash" id="toggleIcon"></i>
                     </span>
-                <div class="invalid-feedback">Por favor, insira sua senha.</div>
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-login w-100 mb-3">
-            Entrar no Sistema
-        </button>
+        <button type="submit" class="btn btn-primary btn-login w-100 mb-3">Entrar no Sistema</button>
 
-        <div class="text-center">
-            <a href="#" class="text-decoration-none text-secondary small">Esqueceu a senha?</a>
+        <div class="text-center mt-3">
+            <span class="text-secondary small">Ainda não tem acesso? </span>
+            <a href="/cadastro" class="text-decoration-none fw-bold" style="color: #2c5364;">Cadastre-se</a>
         </div>
     </form>
 </div>
