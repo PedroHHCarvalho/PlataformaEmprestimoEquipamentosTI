@@ -14,6 +14,9 @@
     <p>Preencha os dados para acessar</p>
   </div>
 
+  <div th:if="${param.error != null and param.error[0] == 'matricula'}" class="alert alert-danger text-center small">Matrícula já cadastrada!</div>
+  <div th:if="${param.error != null and param.error[0] == 'email'}" class="alert alert-danger text-center small">E-mail já cadastrado!</div>
+
   <form th:action="@{/cadastro}" method="POST">
     <div class="mb-3">
       <label class="form-label text-secondary small fw-bold">Nome Completo</label>

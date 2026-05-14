@@ -27,6 +27,13 @@ public class AuthController {
 
     @PostMapping("/cadastro")
     public String realizarCadastro(Colaborador colaborador) {
+        if (repository.existsByMatricula(colaborador.getMatricula())) {
+            return "redirect:/cadastro?error=matricula";
+        }
+        if (repository.existsByEmail(colaborador.getEmail())) {
+            return "redirect:/cadastro?error=email";
+        }
+
         // Criptografa a senha antes de salvar no banco
         colaborador.setSenha(passwordEncoder.encode(colaborador.getSenha()));
         colaborador.setBloqueado(false); // Usuário novo nasce desbloqueado

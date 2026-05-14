@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> {
 
     Optional<Colaborador> findByMatricula(String matricula);
-
+    boolean existsByMatricula(String matricula);
+    boolean existsByEmail(String email);
 }

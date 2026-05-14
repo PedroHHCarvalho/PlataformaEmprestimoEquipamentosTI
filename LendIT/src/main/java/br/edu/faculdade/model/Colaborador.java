@@ -13,7 +13,9 @@ public class Colaborador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    @Column(unique = true)
     private String matricula;
+    @Column(unique = true)
     private String email;
     private boolean bloqueado;
 
