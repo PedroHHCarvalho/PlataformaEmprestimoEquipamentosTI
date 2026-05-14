@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
@@ -21,12 +24,15 @@ public class AuthController {
     }
 
     @GetMapping("/cadastro")
-    public String telaCadastro() {
+    public String telaCadastro(Colaborador colaborador) {
         return "cadastro";
     }
 
     @PostMapping("/cadastro")
-    public String realizarCadastro(Colaborador colaborador) {
+    public String realizarCadastro(@Valid Colaborador colaborador, BindingResult result) {
+        if (result.hasErrors()) {
+            return "cadastro";
+        }
         if (repository.existsByMatricula(colaborador.getMatricula())) {
             return "redirect:/cadastro?error=matricula";
         }

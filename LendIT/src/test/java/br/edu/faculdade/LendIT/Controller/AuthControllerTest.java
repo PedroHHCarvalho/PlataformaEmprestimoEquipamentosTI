@@ -66,6 +66,7 @@ class AuthControllerTest {
         when(passwordEncoder.encode("senha123")).thenReturn("senhaCriptografada");
 
         mockMvc.perform(post("/cadastro")
+                        .param("nome", "Teste Nome")
                         .param("matricula", "123")
                         .param("email", "teste@teste.com")
                         .param("senha", "senha123"))
@@ -80,6 +81,7 @@ class AuthControllerTest {
         when(repository.existsByMatricula("123")).thenReturn(true);
 
         mockMvc.perform(post("/cadastro")
+                        .param("nome", "Teste")
                         .param("matricula", "123")
                         .param("email", "teste@teste.com")
                         .param("senha", "senha123"))
@@ -95,12 +97,28 @@ class AuthControllerTest {
         when(repository.existsByEmail("teste@teste.com")).thenReturn(true);
 
         mockMvc.perform(post("/cadastro")
+                        .param("nome", "Teste")
                         .param("matricula", "123")
                         .param("email", "teste@teste.com")
                         .param("senha", "senha123"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/cadastro?error=email"));
 
+        verify(repository, never()).save(any(Colaborador.class));
+    }
+
+    @Test
+    void naoDeveCadastrarQuandoCamposEstiveremInvalidos() throws Exception {
+        mockMvc.perform(post("/cadastro")
+                        .param("nome", "")
+                        .param("matricula", "")
+                        .param("email", "email_invalido")
+                        .param("senha", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("cadastro"))
+                .andExpect(model().hasErrors())
+                .andExpect(model().attributeHasFieldErrors("colaborador", "nome", "matricula", "email", "senha"));
+        
         verify(repository, never()).save(any(Colaborador.class));
     }
 }
