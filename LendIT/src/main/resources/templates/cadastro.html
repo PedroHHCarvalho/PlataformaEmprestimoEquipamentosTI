@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro - Empréstimos de TI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+<div class="login-card">
+  <div class="login-header">
+    <h2>Novo Cadastro</h2>
+    <p>Preencha os dados para acessar</p>
+  </div>
+
+  <div th:if="${param.error != null and param.error[0] == 'matricula'}" class="alert alert-danger text-center small">Matrícula já cadastrada!</div>
+  <div th:if="${param.error != null and param.error[0] == 'email'}" class="alert alert-danger text-center small">E-mail já cadastrado!</div>
+
+  <form th:action="@{/cadastro}" th:object="${colaborador}" method="POST">
+    <div class="mb-3">
+      <label class="form-label text-secondary small fw-bold">Nome Completo</label>
+      <input type="text" class="form-control" th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'" th:field="*{nome}">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Erro de nome</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label text-secondary small fw-bold">Matrícula (Seu usuário de login)</label>
+      <input type="text" class="form-control" th:classappend="${#fields.hasErrors('matricula')} ? 'is-invalid'" th:field="*{matricula}">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('matricula')}" th:errors="*{matricula}">Erro de matrícula</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label text-secondary small fw-bold">E-mail</label>
+      <input type="email" class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" th:field="*{email}">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Erro de e-mail</div>
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label text-secondary small fw-bold">Senha Segura</label>
+      <input type="password" class="form-control" th:classappend="${#fields.hasErrors('senha')} ? 'is-invalid'" th:field="*{senha}">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">Erro de senha</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-login w-100">Criar Conta</button>
+
+    <div class="text-center mt-3">
+      <a href="/login" class="text-decoration-none text-secondary small">Voltar para o Login</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>
