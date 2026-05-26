@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DashboardController {
 
     // Essa é a rota que o Spring Security procura após o login dar certo!
-    @GetMapping("/emprestimos")
+    @GetMapping("/dashboard")
     public String telaDashboard() {
         return "dashboard"; // O Spring vai procurar o arquivo dashboard.html
     }

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Equipamentos - LendIT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f7f6; }
+        .navbar-custom { background: linear-gradient(to right, #0f2027, #203a43, #2c5364); padding: 1rem 0; }
+        .card-equipamento { border: none; border-radius: 12px; transition: transform 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .card-equipamento:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .btn-custom { background-color: #2c5364; color: white; border: none; }
+        .btn-custom:hover { background-color: #1a2f36; color: white; }
+        .badge-status { background-color: #198754; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-5">
+    <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/dashboard}"><i class="bi bi-laptop me-2"></i>LendIT</a>
+        <div class="d-flex align-items-center">
+            <a th:href="@{/dashboard}" class="btn btn-outline-light btn-sm"><i class="bi bi-arrow-left"></i> Voltar ao Dashboard</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mb-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h3 class="fw-bold" style="color: #2c5364;">Catálogo de Equipamentos</h3>
+            <p class="text-secondary mb-0">Confira os itens disponíveis para empréstimo imediato.</p>
+        </div>
+    </div>
+
+    <!-- Caso não haja equipamentos disponíveis -->
+    <div th:if="${#lists.isEmpty(equipamentos)}" class="alert alert-info text-center py-5">
+        <i class="bi bi-emoji-frown display-4 text-secondary d-block mb-3"></i>
+        <h5>Poxa, não há equipamentos disponíveis no momento.</h5>
+        <p class="mb-0 text-secondary">Volte mais tarde ou verifique com a equipe de TI.</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col" th:each="equipamento : ${equipamentos}">
+            <div class="card card-equipamento h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="badge badge-status py-2 px-3">
+                            <i class="bi bi-check-circle me-1"></i> Disponível
+                        </span>
+                        <i class="bi bi-pc-display text-secondary fs-4"></i>
+                    </div>
+                    
+                    <h5 class="card-title fw-bold text-dark mb-1" th:text="${equipamento.modelo}">Modelo do Equipamento</h5>
+                    <p class="card-text text-muted small mb-3">
+                        Patrimônio: <strong th:text="${equipamento.patrimonio}">12345</strong>
+                    </p>
+                    
+                    <div class="bg-light p-2 rounded mb-4">
+                        <small class="text-secondary d-block">Categoria:</small>
+                        <span class="fw-medium" style="color: #2c5364;" th:text="${equipamento.categoria.nome}">Categoria</span>
+                    </div>
+
+                    <!-- Rota para o Passo 3 -->
+                    <a th:href="@{/emprestimo/novo/{id}(id=${equipamento.id})}" class="btn btn-custom w-100 mt-auto">
+                        <i class="bi bi-calendar-check me-1"></i> Solicitar Empréstimo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
